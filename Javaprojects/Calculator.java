@@ -31,8 +31,8 @@ class Calculator extends JFrame implements ActionListener{
         }
 
         Calculator c = new Calculator();
-        l = new JTextField(16);
-        l.setEditable(false);         // darf nicht vom User geändert werden
+        l = new JTextField();
+        l.setEditable(false);             // darf nicht vom User geändert werden
 
         //buttons for calculator
         JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,badd,bsub,bdiv,bmul,beq,bcl,bp;
@@ -100,16 +100,18 @@ class Calculator extends JFrame implements ActionListener{
 
         p.setBackground(Color.blue);
 
-        f.add(p);     //add panel to frame
+        f.add(l, BorderLayout.NORTH);       //add Text field to frame
+        f.add(p, BorderLayout.CENTER);     //add panel to frame
         f.setSize(200,220);
         f.setVisible(true);
+        f.setLayout(new BorderLayout());
     }
 
     public void actionPerformed(ActionEvent e){
         String s = e.getActionCommand();
 
         if((s.charAt(0) == '.')||(s.charAt(0) <= '9' && s.charAt(0) >= '0')){   //for no input
-            if(!s.equals(" ")){    
+            if(!s.equals("")){    
                 s2 = s2 + s;
             }else {
                 s0 = s0 + s;
@@ -117,7 +119,7 @@ class Calculator extends JFrame implements ActionListener{
 
             l.setText(s0 + s1 + s2);
         }else if(s.charAt(0) == 'C'){     //to clear 
-            s0 = s1 = s2 = " ";
+            s0 = s1 = s2 = "";
             l.setText(s0 + s1 + s2);
         } else if (s.charAt(0) == '='){   // for equals
             double te = 0; // value for answer
@@ -127,12 +129,12 @@ class Calculator extends JFrame implements ActionListener{
                 case "-" -> te = Double.parseDouble(s0) - Double.parseDouble(s2);
                 case "/" -> te = Double.parseDouble(s0) / Double.parseDouble(s2);
                 case "*" -> te = Double.parseDouble(s0) * Double.parseDouble(s2);
-                    default -> System.out.println("No operator given");
+                default -> System.out.println("No operator given");
             }
 
             l.setText(s0 + s1 + s2 + "=" + te);
             s0 = Double.toString(te);
-            s1 = s2 = " ";
+            s1 = s2 = "";
         }else{
             if(s1.equals("") || s2.equals("")){
                 s1 = s;
@@ -149,7 +151,7 @@ class Calculator extends JFrame implements ActionListener{
 
                 s0 = Double.toString(te);
                 s1 = s;     //place the operator
-                s2 = " ";   //make operand blank
+                s2 = "";   //make operand blank
             }
 
             l.setText(s0 + s1 + s2);
